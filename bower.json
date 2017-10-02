@@ -1,0 +1,17 @@
+{
+  "name": "git-flow-images",
+  "homepage": "https://github.com/ihaltsou/git-flow-images",
+  "authors": [
+    "Ihar Haltsou <ihaltsou@scnsoft.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
