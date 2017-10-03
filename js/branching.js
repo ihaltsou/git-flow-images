@@ -9,7 +9,7 @@ function initBranching() {
             "#fee08b",
             "#d53e4f",
             "#abdda4",
-            "#fdae61",
+            "#fee08b",
             "#3288bd",
             "#fdae61",
         ],
@@ -73,50 +73,49 @@ function initBranching() {
         message: "Release stabilization commit(s)"
     };
 
-    var featureColor = 0;
-    var developColor = 1;
-    var releaseColor = 2;
-    var hotfixColor = 3;
-    var stagingColor = 4;
-    var publicReleaseColor = 5;
-    var supportColor = 6
-    var productionColor = 7;
+    var featureColumn = 0;
+    var developColumn = 1;
+    var releaseColumn = 2;
+    var hotfixColumn = 3;
+    var stagingColumn = 4;
+    var publicReleaseColumn = 5;
+    var supportColumn = 6
+    var productionColumn = 7;
 
     var gitGraph = new GitGraph(config);
 
-    var develop = gitGraph.branch({name: "develop", column: developColor});
+    var develop = gitGraph.branch({name: "develop", column: developColumn});
     develop.commit("Initial commit");
 
-    var staging = gitGraph.branch({name: "staging", parentBranch: develop, column: stagingColor});
-    var production = gitGraph.branch({name: "production", parentBranch: develop, column: productionColor});
+    var staging = gitGraph.branch({name: "staging", parentBranch: develop, column: stagingColumn});
+    var production = gitGraph.branch({name: "production", parentBranch: develop, column: productionColumn});
 
 
     develop.commit({messageDisplay: false});
     staging.commit({messageDisplay: false});
     production.commit({messageDisplay: false});
 
-    var feature1 = gitGraph.branch({parentBranch: develop, name: "feature/1", column: featureColor});
+    var feature1 = gitGraph.branch({parentBranch: develop, name: "feature/1", column: featureColumn});
     feature1.commit("A feature to go into v0.1.0").commit({messageDisplay: false});
     feature1.merge(develop);
 
-    var feature2 = gitGraph.branch({parentBranch: develop, name: "feature/2", column: featureColor});
+    var feature2 = gitGraph.branch({parentBranch: develop, name: "feature/2", column: featureColumn});
     feature2.commit("Another feature to go into v0.1.0").commit({messageDisplay: false});
     feature2.merge(develop);
 
-    var release_010 = gitGraph.branch({parentBranch: develop, name: "release/v0.1.0", column: releaseColor});
+    var release_010 = gitGraph.branch({parentBranch: develop, name: "release/v0.1.0", column: releaseColumn});
     release_010.commit({message: "Start v0.1.0-rc Release Candidate builds", tag: "v0.1.0-rc", tagColor: 'gray'});
     release_010.commit(stabilizationCommit);
     release_010.merge(develop).merge(staging, {dotStrokeWidth: 10, message: "Release v0.1.0 tagged", tag: "v0.1.0"});
 
-
-    var hotfix_01x = gitGraph.branch({parentBranch: staging, name: "hotfix/v0.1.x", column: hotfixColor});
+    var hotfix_01x = gitGraph.branch({parentBranch: staging, name: "hotfix/v0.1.x", column: hotfixColumn});
     hotfix_01x.commit({
         message: "Start v0.1.1-rc Release Candidate builds",
         tag: "v0.1.1-rc",
         tagColor: 'gray'
     }).commit(bugfixCommit);
 
-    var feature3 = gitGraph.branch({parentBranch: develop, name: "feature/3", column: featureColor});
+    var feature3 = gitGraph.branch({parentBranch: develop, name: "feature/3", column: featureColumn});
     feature3.commit("A feature to go into v0.2.0").commit({messageDisplay: false});
     feature3.merge(develop);
 
@@ -132,7 +131,7 @@ function initBranching() {
 
     develop.commit({messageDisplay: false});
 
-    var release_020 = gitGraph.branch({parentBranch: develop, name: "release/v0.2.0", column: releaseColor});
+    var release_020 = gitGraph.branch({parentBranch: develop, name: "release/v0.2.0", column: releaseColumn});
     release_020.commit({message: "Start v0.2.0-rc Release Candidate builds", tag: "v0.2.0-rc", tagColor: 'gray'})
     release_020.commit(stabilizationCommit);
     release_020.merge(develop).merge(staging, {dotStrokeWidth: 10, message: "Release v0.2.0 tagged", tag: "v0.2.0"});
@@ -140,19 +139,18 @@ function initBranching() {
     staging.merge(develop).merge(staging, {dotStrokeWidth: 10, message: "Release v0.2.0 tagged", tag: "v0.2.0"});
 
 
-    var release_100 = gitGraph.branch({parentBranch: staging, name: "release/v1.0.0", column: releaseColor});
+    var release_100 = gitGraph.branch({parentBranch: staging, name: "release/v1.0.0", column: publicReleaseColumn});
     release_100.commit({message: "Start v1.0.0-rc Release Candidate builds", tag: "v1.0.0-rc", tagColor: 'gray'});
     release_100.commit(stabilizationCommit);
     release_100.merge(develop).merge(staging).merge(production, {dotStrokeWidth: 10, message: "Release v1.0.0 tagged", tag: "v1.0.0"});
 
-
-    var support_10x = gitGraph.branch({parentBranch: production, name: "support/v1.0.x", column: supportColor});
+    var support_10x = gitGraph.branch({parentBranch: production, name: "support/v1.0.x", column: supportColumn});
     support_10x.commit({message: "Start v1.0.1-rc Release Candidate builds", tag: "v1.0.1-rc", tagColor: 'gray'})
     support_10x.commit(supportCommit).commit({dotStrokeWidth: 10, message: "Release v1.0.1 tagged", tag: "v1.0.1"});
     support_10x.merge(develop).merge(staging).merge(production);
     develop.commit({messageDisplay: false});
 
-    var feature4 = gitGraph.branch({parentBranch: develop, name: "feature/4", column: featureColor});
+    var feature4 = gitGraph.branch({parentBranch: develop, name: "feature/4", column: featureColumn});
     develop.commit({messageDisplay: false});
     feature4.commit("A feature to go into v1.1.0").commit({messageDisplay: false});
     feature4.merge(develop);
@@ -162,7 +160,7 @@ function initBranching() {
     // support_10x.merge(develop);
     // develop.commit({messageDisplay: false});
     //
-    // var feature5 = gitGraph.branch({parentBranch: develop, name: "feature/5", column: featureColor});
+    // var feature5 = gitGraph.branch({parentBranch: develop, name: "feature/5", column: featureColumn});
     // develop.commit({messageDisplay: false});
     // feature5.commit("Another feature to go into v1.2.0").commit({messageDisplay: false});
     // feature5.merge(develop);
@@ -172,7 +170,7 @@ function initBranching() {
     // support_10x.merge(develop);
     // develop.commit({messageDisplay: false});
     //
-    // var release_120 = gitGraph.branch({parentBranch: develop, name: "release/v1.2.0", column: releaseColor});
+    // var release_120 = gitGraph.branch({parentBranch: develop, name: "release/v1.2.0", column: releaseColumn});
     // release_120.commit({message: "Start v1.2.0-rc Release Candidate builds", tag: "v1.2.0-rc", tagColor: 'gray'})
     // release_120.commit(stabilizationCommit);
     // release_120.merge(develop).merge(staging, {dotStrokeWidth: 10, message: "Release v1.2.0 tagged", tag: "v1.2.0"});
